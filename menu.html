@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+    <link rel="stylesheet" href="style/menu.css">
+    <style>
+        #head{
+            width: 95%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            background-color: tomato;
+            padding: 10px;
+        }
+        #display{
+            display: grid;
+            grid-template-columns: repeat(4, 22%);
+            grid-gap: 50px;
+            padding: 30px;
+            
+        }
+        #head>div{
+            display: flex;
+            margin-right: 30px;
+            margin-top: 5px;
+        }
+        .product{
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            padding: 30px;
+        }
+        .add:hover{
+            cursor: pointer;
+        }
+        #goCart:hover{
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="head">
+        <h1>~Select Your Menu~</h1>
+        <div>
+            <h2 id="goCart">Cart: </h2>
+            <h2 id="cart">0</h2>
+        </div>
+    </div>
+    <div id="display"></div>
+</body>
+</html>
+<script>
+    var div = document.getElementById("display");
+    var cartArr = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    for(let t=0 ; t<20 ; t++){
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "product")
+
+        var img = document.createElement("img");
+        img.src = "https://via.placeholder.com/250x150";
+
+        var price = document.createElement("p");
+        price.innerText = `Rs.${Math.ceil(Math.random()*100)}`
+        
+        var button = document.createElement("button")
+        button.innerText = "Add to Cart";
+        button.setAttribute("class", "add")
+        button.setAttribute("onClick", "addCart()");
+
+        
+        function addCart(){
+
+            var cartObj = {
+                image:img.src,
+                price:price.innerText,
+            }
+
+            cartArr.push(cartObj);
+
+            console.log(1);
+            var cartCount = document.getElementById("cart");
+            cartCount.innerText = cartArr.length;
+
+            localStorage.setItem("cartItems", JSON.stringify(cartArr));
+        }
+
+        div1.append(img, price, button);
+        div.append(div1);
+    }
+
+    document.getElementById("goCart").addEventListener("click",function(){
+        window.location.href = "cart.html";
+    })
+
+
+
+
+    // fetch(url)
+    //     .then(function(res){
+    //         res.json().then(function(res){
+    //             console.log(res)
+    //         })
+    //     })
+    //     .catch(function(err){
+    //         console.log(err);
+    //     })
+
+    // async function displayData(){
+    //     var url1 = "https://www.themealdb.com/api.php?ref=apilist.fun";
+    //     console.log(1)
+    //     let data = await fetch(url1)
+    //     console.log(data)
+
+    //     let product = await data.json();
+    //     console.log(product);
+
+
+    //     let url2 = data.url
+    //     console.log(url2);
+    //     let product = await fetch(url2);
+        
+    //     try{
+            
+    //     }
+    //     catch(err){
+    //         console.log(err);
+    //     }
+    // }
+
+    // displayData();
+
+</script>

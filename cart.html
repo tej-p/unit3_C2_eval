@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="style/cart.css">
+    <style>
+        h1{
+            text-align: center;
+        }
+        /* #cartDisplay{
+
+        } */
+        .cartProducts{
+            width: 50%;
+            display: flex;
+            justify-content: space-evenly;
+            border: 1px solid transparent;
+            margin-top: 20px;
+        }
+        .delete{
+            width: 100px;
+            height: 30%;
+            margin-top: 20px;
+            background-color: rgb(27, 150, 137);
+            border: none;
+            padding: 5px;
+            color: white;
+        }
+        .delete:hover{
+            cursor: pointer;
+        }
+        #total{
+            display: flex;
+            width: 50%;
+            justify-content: space-around;        
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>My Cart</h1>
+    <div id="cartDisplay"></div>
+
+    <div id="total">
+        <p><b>Total Amount:</b></p>
+        <p id="amount"><b>00.00</b></p>
+        <p><b>Place Order</b></p>
+    </div>
+
+
+</body>
+</html>
+<script>
+
+    var cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
+    console.log(cartData);
+    display();
+
+    
+
+
+    var amount = 0;
+
+    function display(){
+        let displayDiv = document.getElementById("cartDisplay");
+        display.innerText = "";
+        cartData.map(function(elem,index){
+
+            var div = document.createElement("div");
+            div.setAttribute("class", "cartProducts");
+
+            var price = document.createElement("p");
+            price.innerText = elem.price;
+
+            var t = price.innerText.split("");
+            for(let m=0 ; m<3 ; m++){
+                t.shift();
+            }
+
+            var amt = t.join("")
+            // console.log(typeof(amt));
+            amt = +amt;
+            
+            amount = amount + amt;
+            
+
+            document.getElementById("amount").innerText = amount.toString();
+
+
+            var image = document.createElement("img");
+            image.src = elem.image; 
+
+            var button = document.createElement("button")
+            button.innerText = "Delete";
+            button.setAttribute("class", "delete")
+            button.addEventListener("click", function(){
+                deleteItem();
+            });
+
+
+            div.append(image, price, button);
+
+            displayDiv.append(div);
+
+        })
+    }
+
+
+
+    
+
+    function deleteItem(){
+        cartData.splice(index,1);
+        localStorage.setItem("cartItems", JSON.stringify(cartData))
+
+    }
+    
+</script>
